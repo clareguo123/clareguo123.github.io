@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react'
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom'
+import { HashRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Resume from './pages/Resume'
