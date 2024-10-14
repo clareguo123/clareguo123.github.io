@@ -1,13 +1,29 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  base: "/clareguo123.github.io/",
   plugins: [react()],
+  base: process.env.NODE_ENV === "production" ? "/clareguo123.github.io/" : "/",
+  assetsInclude: ["**/*.md", "**/*.jpg", "**/*.jpeg", "**/*.png", "**/*.gif", "**/*.svg"],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": "/src",
     },
   },
-})
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          let extType = assetInfo.name ? assetInfo.name.split(".").pop() || "" : "";
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            extType = "img";
+          }
+          return `assets/${extType}/[name]-[hash][extname]`;
+        },
+        chunkFileNames: "assets/js/[name]-[hash].js",
+        entryFileNames: "assets/js/[name]-[hash].js",
+      },
+    },
+  },
+});

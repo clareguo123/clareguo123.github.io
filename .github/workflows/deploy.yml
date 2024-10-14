@@ -22,6 +22,11 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          VITE_BASE_URL: /${{ github.event.repository.name }}/
+
+      - name: Copy blog posts
+        run: cp -r src/blog-posts dist/
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4

@@ -1,81 +1,102 @@
 import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { Button } from "../components/ui/button";
+import { Button } from "@/components/ui/button";
 import TypewriterText from "../components/TypeWriterText";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [typingComplete, setTypingComplete] = useState(false);
-  const [currentText, setCurrentText] = useState("");
+  const [currentTextLine1, setCurrentTextLine1] = useState("");
+  const [currentTextLine2, setCurrentTextLine2] = useState("");
   const mainTextControls = useAnimation();
-  const subTextControls = useAnimation();
+  const subTextLine1Controls = useAnimation();
+  const subTextLine2Controls = useAnimation();
   const buttonsControls = useAnimation();
   const navigate = useNavigate();
 
-  const text =
-    "Product Manager at the intersection of Data Science and Enterprise AI. I believe Technology, Data, and AI will unleash never-found value.";
+  const text1 = "Product Manager at the intersection of Data Science, Economics and Enterprise AI.";
+  const text2 = "I believe Technology, Data, and AI will unleash never-found value.";
 
   useEffect(() => {
     const animationSequence = async () => {
       await mainTextControls.start({ opacity: 1, y: 0 });
-      await subTextControls.start({ opacity: 1 });
+      await subTextLine1Controls.start({ opacity: 1 });
     };
     animationSequence();
-  }, [mainTextControls, subTextControls]);
+  }, [mainTextControls, subTextLine1Controls]);
 
   useEffect(() => {
-    if (typingComplete) {
-      buttonsControls.start({ opacity: 1 });
+    if (currentTextLine1 === text1) {
+      subTextLine2Controls.start({ opacity: 1 });
+    }
+  }, [currentTextLine1, subTextLine2Controls]);
+
+  useEffect(() => {
+    if (typingComplete && (currentTextLine2 === text2)) {
+      buttonsControls.start({ opacity: 1, y: 0 });
     }
   }, [typingComplete, buttonsControls]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 pt-20 flex flex-col items-center justify-center min-h-screen">
-        <motion.h1
-          className="text-6xl font-bold mb-8 text-foreground"
-          initial={{ opacity: 0, y: -20 }}
-          animate={mainTextControls}
-          transition={{ duration: 0.5 }}
-        >
-          Hello, I'm Clare
-        </motion.h1>
-        <motion.div
-          className="text-xl mb-12 text-muted-foreground text-center max-w-2xl"
-          initial={{ opacity: 0 }}
-          animate={subTextControls}
-          transition={{ duration: 0.5, delay: 0.5 }}
-        >
-          <div className="relative">
-            <TypewriterText
-              text={text}
-              onTextUpdate={setCurrentText}
-              onComplete={() => setTypingComplete(true)}
-            />
-            {!typingComplete && (
-              <motion.span
-                className="absolute top-0 w-0.5 h-6 bg-foreground"
-                initial={{ opacity: 1 }}
-                animate={{ opacity: [1, 0] }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
-                style={{ left: `${currentText.length * 0.61}em` }}
+    <div className="flex min-h-screen items-start pt-20">
+      <div className="flex justify-center items-start w-full pt-20">
+        <div className="container mx-auto lg:px-16 xl:px-24 shadow-none flex flex-col">
+          <motion.h1
+            className="text-6xl font-bold mb-12 text-left text-muted-background"
+            initial={{ opacity: 0, y: -20 }}
+            animate={mainTextControls}
+            transition={{ duration: 1 }}
+          >
+            Hello, I'm Clare
+          </motion.h1>
+          <div className="text-xl mb-10 text-muted-foreground max-w-4xl">
+            <motion.div
+              className="mb-4 min-h-[1rem]"
+              initial={{ opacity: 0 }}
+              animate={subTextLine1Controls}
+              transition={{ duration: 1 }}
+            >
+              <TypewriterText
+                text={text1}
+                onTextUpdate={setCurrentTextLine1}
               />
-            )}
+            </motion.div>
+            <motion.div
+              // className="min-h-[3rem]"
+              initial={{ opacity: 0 }}
+              animate={subTextLine2Controls}
+              transition={{ duration: 1 }}
+            >
+              <TypewriterText
+                text={text2}
+                onTextUpdate={setCurrentTextLine2}
+                onComplete={() => setTypingComplete(true)}
+              />
+            </motion.div>
           </div>
-        </motion.div>
-        <motion.div
-          className="space-x-4"
-          initial={{ opacity: 0 }}
-          animate={buttonsControls}
-          transition={{ duration: 0.5 }}
-        >
-          <Button size="lg" onClick={() => navigate("/resume")}>
-            Resume
-          </Button>
-          <Button variant="outline" size="lg">
-            Blog
-          </Button>
-        </motion.div>
+          <motion.div
+            className="flex space-x-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={buttonsControls}
+            transition={{ duration: 0.5 }}
+          >
+            <Button
+              size="lg"
+              className="flex-1 px-6 py-3"
+              onClick={() => navigate("/resume")}
+            >
+              Resume
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="flex-1 px-6 py-3"
+              onClick={() => navigate("/blog")}
+            >
+              Blog
+            </Button>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

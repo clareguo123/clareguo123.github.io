@@ -25,6 +25,7 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Navbar activePage={activePage} setActivePage={setActivePage} />
         <main className="flex-grow">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <PageWrapper>
             <Routes>
               <Route path="/home" element={<Home />} />
@@ -35,6 +36,7 @@ function App() {
               <Route path="/" element={<Navigate replace to="/home" />} />
             </Routes>
           </PageWrapper>
+          </div>
         </main>
       </div>
     </Router>

@@ -19,7 +19,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({ text, onComplete, onTex
         if (onTextUpdate) {
           onTextUpdate(newText);
         }
-      }, 50); // Adjust typing speed here
+      }, 20); // Adjust typing speed here
 
       return () => clearTimeout(timer);
     } else if (onComplete) {
