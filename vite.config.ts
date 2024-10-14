@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === "production" ? "/clareguo.com/" : "/",
+  base: process.env.NODE_ENV === "production" ? "/clareguo123.github.io/" : "/",
   assetsInclude: ["**/*.md", "**/*.jpg", "**/*.jpeg", "**/*.png", "**/*.gif", "**/*.svg"],
   resolve: {
     alias: {
