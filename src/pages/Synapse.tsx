@@ -1,33 +1,26 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 
 const Synapse: React.FC = () => {
   return (
     <div className="container mx-auto py-12">
       <Card className="max-w-3xl mx-auto">
         <CardHeader>
-          <CardTitle className="text-center text-4xl font-bold">Synapse: The Next Leap in Human-AI Interaction</CardTitle>
+          <CardTitle className="text-center text-4xl font-bold">Synapse</CardTitle>
+          <p className="text-center text-lg text-muted-foreground">Bridging the Gap Between Human and Artificial Intelligence</p>
         </CardHeader>
         <CardContent className="space-y-6">
-          <p className="text-lg text-muted-foreground">
-            In the current landscape of artificial intelligence, the conversation is dominated by the power and scale of large language models. While these models have unlocked unprecedented capabilities, a critical bottleneck remains: the latency of interaction. The delay between human input and AI response, however small, creates a cognitive gap that hinders true seamless collaboration. This friction, this moment of waiting, is the final barrier between humans and AI working as a single, unified intelligence.
+          <p className="text-lg">
+            Synapse is a research and development initiative dedicated to eliminating the latency of interaction between humans and AI. We believe that by creating a frictionless interface between human thought and artificial cognition, we can unlock a new era of creativity, collaboration, and problem-solving.
           </p>
           <p className="text-lg">
-            Synapse is founded on a single, ambitious vision: to eliminate this latency and usher in an era of instantaneous, intuitive human-AI interaction. We believe that the future of AI is not just about building more powerful models, but about creating a frictionless interface between human thought and artificial cognition. Our mission is to build the infrastructure that will make real-time, collaborative AI a reality for everyone.
-          </p>
-          <p className="text-lg">
-            Our approach is multi-faceted, focusing on a suite of technologies designed to minimize the input-output gap. We are pioneering novel techniques in model optimization, including advanced quantization and knowledge distillation, to create highly efficient, low-latency models. By leveraging the power of edge computing, we bring AI processing closer to the user, drastically reducing network delays. Furthermore, our predictive pre-loading system anticipates user intent, speculatively executing tasks and caching results before they are even requested. This combination of technologies will create an experience so fluid, it will feel like a direct extension of your own mind.
-          </p>
-          <p className="text-lg">
-            The result will be a new paradigm of human-AI interaction, one where AI is not a tool you command, but a partner you collaborate with in real-time. Imagine a world where your thoughts and ideas are instantly augmented and expanded upon by a powerful AI, where creative brainstorming and complex problem-solving happen at the speed of thought. This is the future that Synapse is building—a future where the line between human and artificial intelligence blurs, giving rise to a new form of collective genius.
-          </p>
-          <p className="text-lg font-semibold text-center">
-            We are at the beginning of an exciting journey, and we are looking for passionate, like-minded individuals to join us. If you are a founder, researcher, or engineer who shares our vision of a future with seamless human-AI collaboration, we want to hear from you. Let's build the future, together.
+            Our work focuses on the entire human-AI interaction pipeline, from hardware and software to data and algorithms. We are building an open and collaborative platform that will enable researchers and developers to create a new generation of low-latency, intuitive, and powerful AI applications.
           </p>
           <div className="text-center">
-            <Button size="lg" onClick={() => window.location.href = 'mailto:contact@clareguo.com'}>
-              Collaborate with Us
+            <Button asChild size="lg">
+              <Link to="/synapse-whitepaper">Read the Whitepaper</Link>
             </Button>
           </div>
         </CardContent>
