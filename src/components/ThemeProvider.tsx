@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 const ThemeProviderContext = createContext({
   theme: 'system',
-  setTheme: (theme: 'light' | 'dark' | 'system') => {},
+  setTheme: (_theme: 'light' | 'dark' | 'system') => {},
 });
 
 export const useTheme = () => useContext(ThemeProviderContext);
