@@ -9,6 +9,7 @@ interface BlogPost {
   slug: string;
   frontmatter: {
     title: string;
+    subtitle?: string;
     date: string;
     coverImage?: string;
   };
@@ -27,26 +28,29 @@ const importImage = (imagePath: string) => {
 const BlogList: React.FC<{ posts: BlogPost[] }> = ({ posts }) => (
   <div className="container mx-auto py-6">
     <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post) => (
-        <Card key={post.slug}>
-          <CardHeader>
-            <CardTitle>
-              <Link to={`/blog/${post.slug}`} className="hover:underline">
+        <Card key={post.slug} className="group transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
+          <Link to={`/blog/${post.slug}`} className="block h-full">
+            <CardHeader>
+              <CardTitle className="group-hover:text-primary">
                 {post.frontmatter?.title || 'Untitled Post'}
-              </Link>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">{post.frontmatter?.date || 'No date'}</p>
-            {post.frontmatter?.coverImage && (
-              <img 
-                src={importImage(post.frontmatter.coverImage)} 
-                alt={post.frontmatter.title} 
-                className="mt-4 rounded-md w-full h-48 object-cover"
-              />
-            )}
-          </CardContent>
+              </CardTitle>
+              {post.frontmatter.subtitle && (
+                <p className="text-sm text-muted-foreground italic">{post.frontmatter.subtitle}</p>
+              )}
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">{post.frontmatter?.date || 'No date'}</p>
+              {post.frontmatter?.coverImage && (
+                <img 
+                  src={importImage(post.frontmatter.coverImage)} 
+                  alt={post.frontmatter.title} 
+                  className="mt-4 rounded-md w-full h-48 object-cover"
+                />
+              )}
+            </CardContent>
+          </Link>
         </Card>
       ))}
     </div>
@@ -62,6 +66,9 @@ const BlogPost: React.FC<{ posts: BlogPost[] }> = ({ posts }) => {
   return (
     <div className="container mx-auto py-6">
       <h1 className="text-3xl font-bold mb-2">{post.frontmatter.title}</h1>
+      {post.frontmatter.subtitle && (
+        <p className="text-lg text-muted-foreground italic mb-4">{post.frontmatter.subtitle}</p>
+      )}
       <p className="text-sm text-muted-foreground mb-4">Published on: {post.frontmatter.date}</p>
       {post.frontmatter.coverImage && (
         <img 

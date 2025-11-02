@@ -38,18 +38,33 @@ const Home = () => {
   }, [typingComplete, buttonsControls]);
 
   return (
-    <div className="flex min-h-screen items-start pt-20">
-      <div className="flex justify-center items-start w-full pt-20">
-        <div className="container mx-auto lg:px-16 xl:px-24 shadow-none flex flex-col">
+    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <motion.div
+        className="absolute inset-0 z-0"
+        animate={{
+          background: [
+            'linear-gradient(180deg, #f0f8ff, #ffffff)',
+            'linear-gradient(180deg, #ffffff, #f0f8ff)',
+            'linear-gradient(180deg, #f0f8ff, #ffffff)',
+          ],
+        }}
+        transition={{
+          duration: 10,
+          ease: "linear",
+          repeat: Infinity,
+        }}
+      />
+      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full text-center">
+        <div className="container mx-auto lg:px-16 xl:px-24 shadow-none flex flex-col items-center">
           <motion.h1
-            className="text-6xl font-bold mb-12 text-left text-muted-background"
+            className="text-6xl font-bold mb-8 text-center"
             initial={{ opacity: 0, y: -20 }}
             animate={mainTextControls}
             transition={{ duration: 1 }}
           >
             Hello, I'm Clare
           </motion.h1>
-          <div className="text-xl mb-10 text-muted-foreground max-w-4xl">
+          <div className="text-xl mb-10 text-muted-foreground max-w-4xl text-center">
             <motion.div
               className="mb-4 min-h-[1rem]"
               initial={{ opacity: 0 }}
@@ -62,7 +77,6 @@ const Home = () => {
               />
             </motion.div>
             <motion.div
-              // className="min-h-[3rem]"
               initial={{ opacity: 0 }}
               animate={subTextLine2Controls}
               transition={{ duration: 1 }}
@@ -82,20 +96,24 @@ const Home = () => {
           >
             <Button
               size="lg"
-              className="flex-1 px-6 py-3"
               onClick={() => navigate("/resume")}
             >
               Resume
             </Button>
             <Button
-              variant="outline"
+              variant="secondary"
               size="lg"
-              className="flex-1 px-6 py-3"
               onClick={() => navigate("/blog")}
             >
               Blog
             </Button>
           </motion.div>
+        </div>
+      </div>
+      <div className="relative z-10 w-full py-20 mt-20">
+        <h2 className="text-4xl font-bold text-center mb-12">Projects</h2>
+        <div className="container mx-auto text-center">
+          <p className="text-lg text-muted-foreground">Coming soon...</p>
         </div>
       </div>
     </div>

@@ -1,22 +1,25 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
-import logo from "@/assets/logo-no-background.svg";
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Menu, Sun, Moon } from 'lucide-react';
+import logo from '@/assets/logo-no-background.svg';
+import { useTheme } from './ThemeProvider';
 
-interface NavbarProps {
-  activePage: string;
-  setActivePage: (page: string) => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage }) => {
+const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { theme, setTheme } = useTheme();
+  const [activePage, setActivePage] = useState('Home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pages = ["Home", "Resume", "Blog", "Synapse", "Contact"];
+  const pages = ['Home', 'Resume', 'Blog', 'Synapse', 'Contact'];
+
+  useEffect(() => {
+    const currentPage = location.pathname.split('/')[1] || 'Home';
+    setActivePage(currentPage.charAt(0).toUpperCase() + currentPage.slice(1));
+  }, [location]);
 
   const handleNavigation = (page: string) => {
-    setActivePage(page);
-    navigate(page.toLowerCase() === "home" ? "/" : `/${page.toLowerCase()}`);
+    navigate(page.toLowerCase() === 'home' ? '/' : `/${page.toLowerCase()}`);
     setIsMenuOpen(false);
   };
 
@@ -32,17 +35,17 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage }) => {
               {pages.map((page) => (
                 <Button
                   key={page}
-                  variant={activePage === page ? "default" : "ghost"}
+                  variant={activePage === page ? 'secondary' : 'ghost'}
                   onClick={() => handleNavigation(page)}
-                  className={`px-3 py-1 ${
-                    activePage === page
-                      ? "bg-black text-white hover:bg-gray-800"
-                      : "bg-gray-100 text-black hover:bg-gray-300"
-                  }`}
                 >
                   {page}
                 </Button>
               ))}
+              <Button variant="ghost" size="icon" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
             </div>
             <div className="md:hidden">
               <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -56,13 +59,9 @@ const Navbar: React.FC<NavbarProps> = ({ activePage, setActivePage }) => {
             {pages.map((page) => (
               <Button
                 key={page}
-                variant="ghost"
+                variant={'ghost'}
                 onClick={() => handleNavigation(page)}
-                className={`w-full justify-start ${
-                  activePage === page
-                    ? "bg-black text-white hover:bg-gray-800"
-                    : "bg-gray-200 text-black hover:bg-gray-300"
-                }`}
+                className="w-full justify-start"
               >
                 {page}
               </Button>

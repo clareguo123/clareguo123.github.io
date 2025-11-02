@@ -10,9 +10,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        serif: ["var(--font-serif)"],
-        mono: ["var(--font-mono)"],
+        sans: ['Poppins', 'sans-serif'],
+        serif: ['Source Serif 4', 'serif'],
+        mono: ['var(--font-mono)'],
       },
       colors: {
         background: "hsl(var(--background))",
