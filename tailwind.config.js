@@ -10,9 +10,16 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        serif: ["var(--font-serif)"],
-        mono: ["var(--font-mono)"],
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["Newsreader", "Georgia", "serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
+      fontSize: {
+        "fluid-display": ["clamp(2.25rem, 4.5vw + 1rem, 4.25rem)", { lineHeight: "1.08", letterSpacing: "-0.03em" }],
+        "fluid-h1": ["clamp(1.75rem, 2.8vw + 0.75rem, 2.75rem)", { lineHeight: "1.15", letterSpacing: "-0.025em" }],
+        "fluid-h2": ["clamp(1.25rem, 1.5vw + 0.75rem, 1.75rem)", { lineHeight: "1.25", letterSpacing: "-0.02em" }],
+        "fluid-lead": ["clamp(1.0625rem, 0.8vw + 0.85rem, 1.3125rem)", { lineHeight: "1.6" }],
+        "fluid-body": ["clamp(0.9375rem, 0.35vw + 0.85rem, 1.0625rem)", { lineHeight: "1.65" }],
       },
       colors: {
         background: "hsl(var(--background))",
@@ -58,5 +65,9 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("tailwindcss-animate"),
+  ],
 };

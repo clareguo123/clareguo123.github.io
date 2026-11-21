@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { Link, Route, Routes, useParams } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import { Link, Route, Routes, useParams } from "react-router-dom";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
-interface BlogPost {
+interface BlogPostData {
   slug: string;
   frontmatter: {
     title: string;
@@ -16,69 +14,105 @@ interface BlogPost {
 }
 
 interface BlogModule {
-  frontmatter: BlogPost['frontmatter'];
+  frontmatter: BlogPostData["frontmatter"];
   default: string;
 }
 
 const importImage = (imagePath: string) => {
-  return new URL(`/src/blog-posts/images/${imagePath}`, import.meta.url).href;
+  const cleanPath = imagePath.replace(/^images\//, "");
+  return new URL(`/src/blog-posts/images/${cleanPath}`, import.meta.url).href;
 };
 
-const BlogList: React.FC<{ posts: BlogPost[] }> = ({ posts }) => (
-  <div className="container mx-auto py-6">
-    <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
-    <div className="space-y-4">
+const BlogList: React.FC<{ posts: BlogPostData[] }> = ({ posts }) => (
+  <div className="space-y-10">
+    <header className="space-y-3 border-b border-border/60 pb-8">
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        Writing
+      </p>
+      <h1 className="text-fluid-h1 font-medium tracking-tight">Notes &amp; Essays</h1>
+      <p className="max-w-xl text-fluid-body text-muted-foreground">
+        Thoughts on product management, engineering collaboration, and data.
+      </p>
+    </header>
+
+    <div className="divide-y divide-border/60">
       {posts.map((post) => (
-        <Card key={post.slug}>
-          <CardHeader>
-            <CardTitle>
-              <Link to={`/blog/${post.slug}`} className="hover:underline">
-                {post.frontmatter?.title || 'Untitled Post'}
-              </Link>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">{post.frontmatter?.date || 'No date'}</p>
-            {post.frontmatter?.coverImage && (
-              <img 
-                src={importImage(post.frontmatter.coverImage)} 
-                alt={post.frontmatter.title} 
-                className="mt-4 rounded-md w-full h-48 object-cover"
-              />
-            )}
-          </CardContent>
-        </Card>
+        <Link
+          key={post.slug}
+          to={`/blog/${post.slug}`}
+          className="group flex flex-col justify-between gap-2 py-6 transition-colors sm:flex-row sm:items-baseline"
+        >
+          <div className="space-y-1">
+            <h2 className="text-lg font-medium tracking-tight text-foreground transition-colors group-hover:text-muted-foreground">
+              {post.frontmatter?.title || "Untitled Post"}
+            </h2>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs text-muted-foreground">
+              {post.frontmatter?.date || "No date"}
+            </span>
+            <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
+          </div>
+        </Link>
       ))}
     </div>
   </div>
 );
 
-const BlogPost: React.FC<{ posts: BlogPost[] }> = ({ posts }) => {
+const BlogPostView: React.FC<{ posts: BlogPostData[] }> = ({ posts }) => {
   const { slug } = useParams<{ slug: string }>();
-  const post = posts.find(p => p.slug === slug);
+  const post = posts.find((p) => p.slug === slug);
 
-  if (!post) return <div className="container mx-auto py-6">Post not found</div>;
+  if (!post) {
+    return (
+      <div className="space-y-6 py-8">
+        <p className="text-muted-foreground">Post not found.</p>
+        <Link
+          to="/blog"
+          className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:underline"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to all posts
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto py-6">
-      <h1 className="text-3xl font-bold mb-2">{post.frontmatter.title}</h1>
-      <p className="text-sm text-muted-foreground mb-4">Published on: {post.frontmatter.date}</p>
-      {post.frontmatter.coverImage && (
-        <img 
-          src={importImage(post.frontmatter.coverImage)} 
-          alt={post.frontmatter.title} 
-          className="mt-4 mb-6 rounded-md w-full h-64 object-cover"
+    <article className="mx-auto max-w-2xl space-y-8">
+      <Link
+        to="/blog"
+        className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        All posts
+      </Link>
+
+      <header className="space-y-3 border-b border-border/60 pb-6">
+        <p className="font-mono text-xs text-muted-foreground">
+          {post.frontmatter?.date}
+        </p>
+        <h1 className="text-fluid-h1 font-medium tracking-tight">
+          {post.frontmatter?.title}
+        </h1>
+      </header>
+
+      {post.frontmatter?.coverImage && (
+        <img
+          src={importImage(post.frontmatter.coverImage)}
+          alt={post.frontmatter.title}
+          className="w-full rounded-lg object-cover"
         />
       )}
-      <Separator className="my-4" />
-      <div className="prose dark:prose-invert max-w-none">
+
+      <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-medium prose-headings:tracking-tight prose-p:leading-relaxed">
         <ReactMarkdown
           components={{
-            img: ({node, ...props}) => (
-              <img 
-                {...props} 
-                src={importImage(props.src || '')}
-                className="rounded-md max-w-full h-auto"
+            img: ({ ...props }) => (
+              <img
+                {...props}
+                src={importImage(props.src || "")}
+                className="my-6 h-auto max-w-full rounded-lg"
               />
             ),
           }}
@@ -86,25 +120,21 @@ const BlogPost: React.FC<{ posts: BlogPost[] }> = ({ posts }) => {
           {post.content}
         </ReactMarkdown>
       </div>
-      <Separator className="my-4" />
-      <Button asChild>
-        <Link to="/blog">Back to all posts</Link>
-      </Button>
-    </div>
+    </article>
   );
 };
 
 const Blog: React.FC = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPostData[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const modules = import.meta.glob<BlogModule>('/src/blog-posts/*.md');
-      const blogPosts: BlogPost[] = [];
+      const modules = import.meta.glob<BlogModule>("/src/blog-posts/*.md");
+      const blogPosts: BlogPostData[] = [];
 
       for (const path in modules) {
         const mod = await modules[path]();
-        const slug = path.split('/').pop()?.replace('.md', '');
+        const slug = path.split("/").pop()?.replace(".md", "");
         if (slug) {
           blogPosts.push({
             slug,
@@ -114,9 +144,13 @@ const Blog: React.FC = () => {
         }
       }
 
-      setPosts(blogPosts.sort((a, b) => 
-        new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
-      ));
+      setPosts(
+        blogPosts.sort(
+          (a, b) =>
+            new Date(b.frontmatter?.date || 0).getTime() -
+            new Date(a.frontmatter?.date || 0).getTime()
+        )
+      );
     };
 
     fetchPosts();
@@ -125,7 +159,7 @@ const Blog: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<BlogList posts={posts} />} />
-      <Route path=":slug" element={<BlogPost posts={posts} />} />
+      <Route path=":slug" element={<BlogPostView posts={posts} />} />
     </Routes>
   );
 };

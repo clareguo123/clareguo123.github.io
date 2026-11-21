@@ -1,168 +1,219 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+interface ExperienceItem {
+  company: string;
+  location: string;
+  role: string;
+  period: string;
+  highlights: {
+    project: string;
+    details: string[];
+  }[];
+}
+
+const EXPERIENCES: ExperienceItem[] = [
+  {
+    company: "Rakuten",
+    location: "Tokyo, Japan",
+    role: "Product Manager · Analytics Data Engineering",
+    period: "Jun 2023 — Present",
+    highlights: [
+      {
+        project: "Offline Campaign Evaluation Web Application",
+        details: [
+          "Owned product lifecycle from concept and feature design through QA, leveraging offline purchase, behavioral, and demographic datasets.",
+          "Adopted by 20+ retail partners to measure and optimize marketing campaigns.",
+        ],
+      },
+      {
+        project: "Voice of Customer (VoC) LLM Proof of Concept",
+        details: [
+          "Built an LLM-powered VoC pipeline for topic labeling, sentiment rating, semantic clustering, and summarization with visual reporting.",
+        ],
+      },
+      {
+        project: "Customized Target Prospecting Model",
+        details: [
+          "Led cross-service prospecting model PoC, achieving a 50% lift in conversion rate (CVR).",
+        ],
+      },
+      {
+        project: "Data-Driven Market & GMV Analysis",
+        details: [
+          "Analyzed offline purchase data to identify customer segments and market positioning, delivering storytelling-driven client proposals.",
+        ],
+      },
+    ],
+  },
+  {
+    company: "Accenture",
+    location: "Tokyo, Japan",
+    role: "Senior Analyst",
+    period: "Apr 2019 — Jan 2022",
+    highlights: [
+      {
+        project: "Fully Digital Banking System",
+        details: [
+          "Defined functional design and business rules for account opening, transactions, and rule registration; awarded the Red Dot Design Award 2021.",
+        ],
+      },
+      {
+        project: "Offline Digital Payments Platform",
+        details: [
+          "Standardized API design templates and authored functional specs for user, corporate, and Citi Bank transaction APIs.",
+        ],
+      },
+      {
+        project: "Telecom Logistics Data Migration",
+        details: [
+          "Led a 4-person migration team across tool development, ETL execution, data validation, and bilingual stakeholder alignment.",
+        ],
+      },
+    ],
+  },
+  {
+    company: "A.R Advanced Technology",
+    location: "Tokyo, Japan",
+    role: "Application Engineer",
+    period: "Apr 2017 — Apr 2019",
+    highlights: [
+      {
+        project: "Public Transportation DWH-ETL Tool",
+        details: [
+          "Led a 6-engineer team in DWH-ETL development and testing, recovering a delayed delivery schedule.",
+        ],
+      },
+      {
+        project: "Alcohol Detector Windows Application",
+        details: [
+          "Designed, implemented, and tested database-layer APIs.",
+        ],
+      },
+    ],
+  },
+];
+
+const SKILLS = [
+  {
+    category: "Product & Design",
+    items: "Jira, Confluence, Notion, Figma, Agile, Waterfall",
+  },
+  {
+    category: "Languages",
+    items: "Python, SQL, Java, C#, R, JavaScript",
+  },
+  {
+    category: "Cloud & Data",
+    items: "GCP (BigQuery, Looker Studio, Cloud Functions, IAM, Identity Platform), AWS (RDS, EC2, Redshift), Git",
+  },
+];
+
+const CERTIFICATIONS = [
+  "Stanford Online — Machine Learning (Coursera)",
+  "Google Cloud — Essential Infrastructure (Coursera)",
+  "Advanced Product Management: Vision, Strategy & Metrics",
+];
 
 const Resume = () => {
   return (
-    <div className="container mx-auto py-8 px-4">
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center">LIN GUO</CardTitle>
-          <p className="text-center text-muted-foreground">
-            Email: <a href="mailto:contact@clareguo.com" className="text-primary hover:underline">contact@clareguo.com</a>
-          </p>
-        </CardHeader>
-      </Card>
+    <div className="space-y-14">
+      <header className="space-y-4 border-b border-border/60 pb-10">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-baseline">
+          <h1 className="text-fluid-h1 font-medium tracking-tight">
+            Lin (Clare) Guo
+          </h1>
+          <a
+            href="mailto:contact@clareguo.com"
+            className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            contact@clareguo.com
+          </a>
+        </div>
+        <p className="max-w-2xl text-fluid-body text-muted-foreground">
+          Product Manager with a background in data science, IT consulting, and
+          application engineering across banking, payments, and enterprise BI.
+        </p>
+      </header>
 
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Professional Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>As a dedicated Product Manager with a strong background in data science, I specialize in delivering Business Intelligence and campaign analysis applications. My diverse career spans roles as a data scientist, IT consultant, and application engineer, providing me with extensive experience in architecture design and business analysis within banking and payment systems. I excel in strong communication, have a passion for data analysis, and possess a solid academic foundation in economic analysis and reporting. My expertise in leveraging purchase, demographic, and geo data allows me to drive innovative solutions and enhance marketing strategies for businesses.</p>
-        </CardContent>
-      </Card>
+      <section className="space-y-10">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          Experience
+        </h2>
+        <div className="space-y-12">
+          {EXPERIENCES.map((exp) => (
+            <article
+              key={`${exp.company}-${exp.period}`}
+              className="grid gap-4 sm:grid-cols-[200px_1fr] sm:gap-8"
+            >
+              <div className="space-y-1">
+                <h3 className="text-base font-medium text-foreground">
+                  {exp.company}
+                </h3>
+                <p className="font-mono text-xs text-muted-foreground">
+                  {exp.period}
+                </p>
+                <p className="text-xs text-muted-foreground">{exp.location}</p>
+              </div>
+              <div className="space-y-5">
+                <p className="text-sm font-medium text-foreground">{exp.role}</p>
+                <div className="space-y-4">
+                  {exp.highlights.map((item) => (
+                    <div key={item.project} className="space-y-1">
+                      <h4 className="text-sm font-medium text-foreground/90">
+                        {item.project}
+                      </h4>
+                      <ul className="space-y-1 text-sm leading-relaxed text-muted-foreground">
+                        {item.details.map((detail) => (
+                          <li key={detail}>{detail}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Key Tech Skills</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2">
-            <li><strong>Product Management Tools:</strong> <Badge variant="secondary">Jira</Badge> <Badge variant="secondary">Confluence</Badge> <Badge variant="secondary">Notion</Badge> <Badge variant="secondary">Figma</Badge></li>
-            <li><strong>Project Management Frameworks:</strong> <Badge variant="secondary">Agile</Badge> <Badge variant="secondary">Waterfall</Badge></li>
-            <li><strong>Languages:</strong> <Badge variant="secondary">Python</Badge> <Badge variant="secondary">SQL</Badge> <Badge variant="secondary">Java</Badge> <Badge variant="secondary">C#</Badge> <Badge variant="secondary">R</Badge> <Badge variant="secondary">JavaScript</Badge></li>
-            <li><strong>Cloud Platforms:</strong> <Badge variant="secondary">GCP</Badge> <Badge variant="secondary">AWS</Badge></li>
-            <li><strong>GCP Tools:</strong> <Badge variant="secondary">BigQuery</Badge> <Badge variant="secondary">Looker Studio</Badge> <Badge variant="secondary">Cloud Function</Badge> <Badge variant="secondary">IAM</Badge> <Badge variant="secondary">Identity Platform</Badge></li>
-            <li><strong>AWS Services:</strong> <Badge variant="secondary">RDS</Badge> <Badge variant="secondary">EC2</Badge> <Badge variant="secondary">Redshift</Badge></li>
-            <li><strong>Version Control:</strong> <Badge variant="secondary">Git</Badge></li>
+      <section className="grid gap-10 border-t border-border/60 pt-10 sm:grid-cols-3">
+        <div className="space-y-4">
+          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Technical Stack
+          </h2>
+          <dl className="space-y-3 text-sm">
+            {SKILLS.map((group) => (
+              <div key={group.category} className="space-y-0.5">
+                <dt className="font-medium text-foreground">{group.category}</dt>
+                <dd className="text-muted-foreground">{group.items}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Languages
+          </h2>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li>
+              <span className="font-medium text-foreground">English</span> — IELTS 7.5, TOEIC 925
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Japanese</span> — JLPT N1
+            </li>
           </ul>
-        </CardContent>
-      </Card>
+        </div>
 
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Language Skills</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2">
-            <li><strong>English:</strong> IELTS: 7.5, TOEIC: 925</li>
-            <li><strong>Japanese:</strong> JLPT: N1</li>
+        <div className="space-y-4">
+          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Certifications
+          </h2>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            {CERTIFICATIONS.map((cert) => (
+              <li key={cert}>{cert}</li>
+            ))}
           </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Certificates</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2">
-            <li><Badge variant="outline">Machine Learning</Badge> Stanford | Online Machine Learning (Coursera)</li>
-            <li><Badge variant="outline">GCP</Badge> Essential Google Cloud Infrastructure (Coursera)</li>
-            <li><Badge variant="outline">Product Management</Badge> Advanced Product Management: Vision, Strategy & Metrics (Udemy)</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Professional Experience</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <h3 className="text-xl font-semibold">Rakuten, Tokyo, Japan</h3>
-            <p className="text-muted-foreground">Product Manager | Analytics Data Engineering Department | June 2023 – Present</p>
-            <ul className="list-disc pl-6 mt-2 space-y-2">
-              <li>
-                <strong>Campaign Evaluation Web Application for Offline Business</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Led the product lifecycle from concept to implementation, including planning, feature design, and QA control.</li>
-                  <li>Utilized extensive datasets including offline purchase histories, user behavior, and demographic information.</li>
-                  <li>Successfully adopted by over 20 retail partners, enhancing their marketing campaigns.</li>
-                </ul>
-              </li>
-              <li>
-                <strong>PoC for Voice of Customer Analysis</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Developed a PoC leveraging Large Language Models for VoC analysis, including topic labeling, sentiment rating, semantic clustering, and summarization.</li>
-                  <li>Provided straightforward visualization for large text-based data.</li>
-                </ul>
-              </li>
-              <li>
-                <strong>PoC for Customized Target Prospecting Model</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Organized a PoC on Customized Target Prospecting model for internal services cross-use.</li>
-                  <li>Achieved a 50% increase in conversion rate (CVR).</li>
-                </ul>
-              </li>
-              <li>
-                <strong>Ad-hoc Data-Driven Analysis to Support Marketing Campaigns</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Conducted in-depth analysis of offline purchase data to identify market positions and predict potential customer segments, leading to potential GMV increases.</li>
-                  <li>Created storytelling-based reports and data visualizations to effectively communicate insights and proposals to clients.</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          
-          <Separator />
-
-          <div>
-            <h3 className="text-xl font-semibold">Accenture, Tokyo, Japan</h3>
-            <p className="text-muted-foreground">Senior Analyst | April 2019 - January 2022</p>
-            <ul className="list-disc pl-6 mt-2 space-y-2">
-              <li>
-                <strong>Data Migration for Telecommunication Company's Logistics Systems</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Led a team of 4 in conducting data migration from tool development to ETL procedure execution.</li>
-                  <li>Managed knowledge transfer and meetings as the sole English-speaking team leader.</li>
-                  <li>Ensured on-time completion through effective task distribution, troubleshooting, and team support.</li>
-                  <li>Implemented data validation tools to minimize migration errors.</li>
-                </ul>
-              </li>
-              <li>
-                <strong>Fully Digital Banking System Development</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Defined functional design and business rules for the account management system.</li>
-                  <li>Led development of complex functions: account opening, transactions, and transaction rule registration.</li>
-                  <li>Project awarded the "Red Dot Design Award 2021".</li>
-                </ul>
-              </li>
-              <li>
-                <strong>Offline Digital Payments Platform for Crew Members</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Created templates for API design documents, reducing development team misinterpretation.</li>
-                  <li>Designed APIs for user, corporate management, and transaction systems.</li>
-                  <li>Conducted functional design for transaction system APIs connecting to Citi Bank.</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-
-          <Separator />
-
-          <div>
-            <h3 className="text-xl font-semibold">A.R Advanced Technology, Tokyo, Japan</h3>
-            <p className="text-muted-foreground">Application Engineer | April 2017 - April 2019</p>
-            <ul className="list-disc pl-6 mt-2 space-y-2">
-              <li>
-                <strong>Alcohol Detector Windows Application</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Developed database-related APIs from functional design to testing.</li>
-                </ul>
-              </li>
-              <li>
-                <strong>ETL Tool for Japanese Public Transportation Company</strong>
-                <ul className="list-circle pl-6 mt-1">
-                  <li>Led a team of 6 in DWH-ETL processing development, managing progress, task distribution, programming, testing, and debugging.</li>
-                  <li>Successfully recovered a significantly delayed project through optimized task management and team motivation.</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+      </section>
     </div>
   );
 };
